@@ -25,7 +25,7 @@ interface ApiService {
     suspend fun updateStudent(@Path("id") id: Int, @Body student: Student): Response<Unit>
 
     @DELETE("deleteStudent/{id}")
-    suspend fun delete(@Path("id") id : Int): Response<Unit>
+    suspend fun deleteStudent(@Path("id") id : Int): Response<Unit>
 
 
     @GET("courses")
