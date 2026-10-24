@@ -26,6 +26,8 @@ import retrofit2.Response
 val Green = Color(0xFF37EE37)
 val Red = Color(0xFFBA0E0E)
 
+val Gray = Color.Gray
+
 @Composable
 fun Select(title: String, text: String, options: List<String>, whenClick: (Int) -> Unit) {
 

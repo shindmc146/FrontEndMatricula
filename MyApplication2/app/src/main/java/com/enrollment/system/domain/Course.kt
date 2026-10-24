@@ -9,6 +9,7 @@ data class Course(
     val picture: String,
     val group: String,
     val maximumEnrollment: Int,
+    val availableEnrollments: Int,
     val state: String,
     val schedule: String
 )
