@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.jvm.java
 
 object Api {
-    private const val URL = "http://localhost:8080/";
+    private const val URL = "http://localhost:8081/";
 
 
     val service: ApiService = Retrofit.Builder()

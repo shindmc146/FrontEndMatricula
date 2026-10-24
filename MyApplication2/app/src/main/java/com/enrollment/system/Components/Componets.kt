@@ -73,7 +73,7 @@ fun ConfirmDialog(message: String, confirm: () -> Unit, cancel: () -> Unit)
 
 @Composable
 fun Alert(text: String){
-    if (text.length != 0 || text != "") {
+    if (text != "") {
         Text(
             text = text,
             fontWeight = FontWeight.Bold,

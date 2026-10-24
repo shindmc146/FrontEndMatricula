@@ -1,7 +1,8 @@
-package com.enrollment.system.GUI
+package com.enrollment.system.Screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -73,7 +74,7 @@ fun StudentScreen(){
         }
 
         for (s in students){
-            Card() {
+            Card(modifier = Modifier.fillMaxWidth().padding(top = 12.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Column(modifier = Modifier.weight(1f)) {
                         Text(text = s.name)
@@ -92,7 +93,7 @@ fun StudentScreen(){
 
 
     if (creatingStudent){
-        StudentDialog(student = null, close = {creatingStudent = false},
+        StudentForm(student = null, close = {creatingStudent = false},
             save = {
                 creatingStudent = false
                 message = "Estudiante Creado"
@@ -103,7 +104,7 @@ fun StudentScreen(){
     val studentEdit = editStudent;
 
     if (studentEdit != null){
-        StudentDialog(
+        StudentForm(
             student = studentEdit,
             close = {editStudent = null},
             save = {
@@ -143,16 +144,16 @@ fun StudentScreen(){
 
 
 @Composable
-fun StudentDialog(student: Student?, close: () -> Unit, save: () -> Unit){
+fun StudentForm(student: Student?, close: () -> Unit, save: () -> Unit){
     var studentName by remember {mutableStateOf(student?.name ?: "")}
     var error by remember { mutableStateOf("") }
-    val scope = rememberCoroutineScope();
+    val scope = rememberCoroutineScope()
 
     AlertDialog (
         onDismissRequest = close,
         title = {Text(text = if(student == null) "Nuevo estudiante" else "Editar estudiante")},
         text = {
-            Column {
+
                 OutlinedTextField(
                     value = studentName,
                     onValueChange = {text -> studentName = text},
@@ -162,7 +163,7 @@ fun StudentDialog(student: Student?, close: () -> Unit, save: () -> Unit){
                 if (error != ""){
                     Text(text = error, color = Red, modifier = Modifier.padding(top = 8.dp))
                 }
-            }
+
         },
         confirmButton = {
             Button(onClick = {
