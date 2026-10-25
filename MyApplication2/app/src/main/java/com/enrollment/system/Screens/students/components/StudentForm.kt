@@ -49,7 +49,7 @@ fun StudentForm(student: Student?, close: () -> Unit, save: () -> Unit){
         },
         confirmButton = {
             Button(onClick = {
-                val regexLetters = Regex("^[a-zA-Z ]*$")
+                val regexLetters = Regex("^[\\p{L} ]+$")
 
                 if (!studentName.trim().matches(regexLetters) || studentName == ""){
                     error = "Debe ingresar un nombre valido"
