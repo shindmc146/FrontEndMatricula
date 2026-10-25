@@ -1,4 +1,4 @@
-package com.enrollment.system.Screens
+package com.enrollment.system.Screens.students.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -6,10 +6,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -139,66 +137,6 @@ fun StudentScreen(){
         )
     }
 
-}
-
-
-
-@Composable
-fun StudentForm(student: Student?, close: () -> Unit, save: () -> Unit){
-    var studentName by remember {mutableStateOf(student?.name ?: "")}
-    var error by remember { mutableStateOf("") }
-    val scope = rememberCoroutineScope()
-
-    AlertDialog (
-        onDismissRequest = close,
-        title = {Text(text = if(student == null) "Nuevo estudiante" else "Editar estudiante")},
-        text = {
-
-                OutlinedTextField(
-                    value = studentName,
-                    onValueChange = {text -> studentName = text},
-                    label = {Text(text = "Nombre Completo")}
-                )
-
-                if (error != ""){
-                    Text(text = error, color = Red, modifier = Modifier.padding(top = 8.dp))
-                }
-
-        },
-        confirmButton = {
-            Button(onClick = {
-                val data = Student(
-                    id = student?.id ?: 0, name = studentName
-                )
-
-
-                scope.launch {
-                    try {
-                        val response = if (student == null) {
-                            Api.service.registerStudent(data)
-                        } else {
-                            Api.service.updateStudent(student.id, data)
-                        }
-
-                        if (response.isSuccessful) {
-                            save();
-                        } else {
-                            error = errorReader(response = response)
-                        }
-                    } catch (e: Exception) {
-                        error = "Error al guardar el estudiante: " + e.message
-                    }
-                }
-            }) {
-                Text(text = "Guardar")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = close) {
-                Text(text = "Cancelar")
-            }
-        }
-    )
 }
 
 

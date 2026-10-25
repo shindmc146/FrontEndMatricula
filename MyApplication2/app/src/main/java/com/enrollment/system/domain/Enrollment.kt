@@ -8,7 +8,7 @@ data class Enrollment (
     val courseId: Int,
     val studentName: String,
     val courseCode: String,
-    val state: Boolean,
+    val state: String,
     val enrollmentDate: String
 )
 

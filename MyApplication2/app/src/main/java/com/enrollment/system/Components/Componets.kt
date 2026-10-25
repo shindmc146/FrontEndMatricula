@@ -1,12 +1,11 @@
 package com.enrollment.system.Components
 
-import android.app.AlertDialog
-import android.graphics.Color.GREEN
-import android.graphics.Color.RED
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.OutlinedButton
@@ -23,13 +22,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import retrofit2.Response
 
-val Green = Color(0xFF37EE37)
+val Green = Color(0xFF3FED3F)
 val Red = Color(0xFFBA0E0E)
 
 val Gray = Color.Gray
 
 @Composable
-fun Select(title: String, text: String, options: List<String>, whenClick: (Int) -> Unit) {
+fun Select(title: String, text: String, options: List<String>?, whenClick: ((Int) -> Unit)?) {
 
     var open by remember { mutableStateOf(false) }
     Text(text = title, modifier = Modifier.padding(top = 12.dp, bottom = 4.dp))
@@ -40,12 +39,15 @@ fun Select(title: String, text: String, options: List<String>, whenClick: (Int) 
         }
 
         DropdownMenu(expanded = open, onDismissRequest = { open = false}) {
-            for (position in options.indices){
-                DropdownMenuItem(
-                    text = {Text(text = options[position])},
-                    onClick = {whenClick(position)
-                        open = false})
+            if (options != null && whenClick != null){
+                for (position in options.indices){
+                    DropdownMenuItem(
+                        text = {Text(text = options[position])},
+                        onClick = {whenClick(position)
+                            open = false})
+                }
             }
+
         }
     }
 }
@@ -85,6 +87,26 @@ fun Alert(text: String){
 }
 
 
+@Composable
+fun ButtonMenu(
+    text: String,
+    selected : Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier
+){
+    val filler = PaddingValues(horizontal = 4.dp, vertical = 8.dp)
+
+    if (selected){
+        Button(onClick = onClick, modifier = modifier, contentPadding = filler) {
+            Text(text)
+        }
+    }else {
+        OutlinedButton(onClick = onClick, modifier = modifier, contentPadding = filler) {
+            Text(text)
+        }
+    }
+}
+
 fun errorReader(response : Response<Unit>): String{
     val body = response.errorBody();
     if (body == null){
@@ -94,4 +116,6 @@ fun errorReader(response : Response<Unit>): String{
     return body.string().trim();
 
 }
+
+
 
