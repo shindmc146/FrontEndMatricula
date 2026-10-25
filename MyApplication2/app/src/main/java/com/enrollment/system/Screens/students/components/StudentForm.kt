@@ -45,26 +45,32 @@ fun StudentForm(student: Student?, close: () -> Unit, save: () -> Unit){
         },
         confirmButton = {
             Button(onClick = {
-                val data = Student(
-                    id = student?.id ?: 0, name = studentName
-                )
+                val regexLetters = Regex("^[a-zA-Z ]*$")
+
+                if (!studentName.trim().matches(regexLetters) || studentName == ""){
+                    error = "Debe ingresar un nombre valido"
+                }else {
+                    val data = Student(
+                        id = student?.id ?: 0, name = studentName
+                    )
 
 
-                scope.launch {
-                    try {
-                        val response = if (student == null) {
-                            Api.service.registerStudent(data)
-                        } else {
-                            Api.service.updateStudent(student.id, data)
+                    scope.launch {
+                        try {
+                            val response = if (student == null) {
+                                Api.service.registerStudent(data)
+                            } else {
+                                Api.service.updateStudent(student.id, data)
+                            }
+
+                            if (response.isSuccessful) {
+                                save();
+                            } else {
+                                error = errorReader(response = response)
+                            }
+                        } catch (e: Exception) {
+                            error = "Error al guardar el estudiante: " + e.message
                         }
-
-                        if (response.isSuccessful) {
-                            save();
-                        } else {
-                            error = errorReader(response = response)
-                        }
-                    } catch (e: Exception) {
-                        error = "Error al guardar el estudiante: " + e.message
                     }
                 }
             }) {
