@@ -1,6 +1,9 @@
 package com.enrollment.system.Screens.students.components
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
@@ -31,15 +34,16 @@ fun StudentForm(student: Student?, close: () -> Unit, save: () -> Unit){
         onDismissRequest = close,
         title = {Text(text = if(student == null) "Nuevo estudiante" else "Editar estudiante")},
         text = {
+            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                OutlinedTextField(
+                    value = studentName,
+                    onValueChange = { text -> studentName = text },
+                    label = { Text(text = "Nombre Completo") }
+                )
 
-            OutlinedTextField(
-                value = studentName,
-                onValueChange = {text -> studentName = text},
-                label = {Text(text = "Nombre Completo")}
-            )
-
-            if (error != ""){
-                Text(text = error, color = Red, modifier = Modifier.padding(top = 8.dp))
+                if (error != "") {
+                    Text(text = error, color = Red, modifier = Modifier.padding(top = 8.dp))
+                }
             }
 
         },

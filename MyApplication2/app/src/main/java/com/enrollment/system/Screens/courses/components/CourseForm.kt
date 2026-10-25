@@ -118,33 +118,34 @@ fun CourseForm(course: Course?, close: () -> Unit, save: () -> Unit){
                     options = schedules,
                     whenClick = { position -> courseSchedule = schedules[position]}
                 )
+                if (error != ""){
+                    Text(text = error, color = Red, modifier = Modifier.padding(bottom = 30.dp))
+                }
             }
 
 
-            if (error != ""){
-                Text(text = error, color = Red, modifier = Modifier.padding(bottom = 30.dp))
-            }
+
         },
         confirmButton = {
             Button(onClick = {
 
                 val regexNums = Regex("^[0-9]*$")
-                val regexLetters = Regex("^[a-zA-Z ]*$")
+                val regexLetters = Regex("^[\\p{L} ]+$")
                 val regex = Regex("^[a-zA-Z0-9]*$")
 
-                if (!courseName.trim().matches(regexLetters) || courseName == ""){
+                if (!courseName.trim().matches(regexLetters) || courseName.trim() == ""){
                     error = "Debe ingresar un nombre valido"
-                }else if (!courseCode.matches(regex) || courseCode == ""){
+                }else if (!courseCode.trim().matches(regex) || courseCode.trim() == ""){
                     error = "Debe ingresar un codigo valido"
-                }else if (!courseDescription.trim().matches(regexLetters) || courseDescription == "") {
+                }else if (!courseDescription.trim().matches(regexLetters) || courseDescription.trim() == "") {
                     error = "Debe ingresar una descripcion valida"
-                }else if(!courseCredits.matches(regexNums) || courseCredits == ""){
+                }else if(!courseCredits.trim().matches(regexNums) || courseCredits.trim() == ""){
                     error = "Debe ingresar creditos validos"
-                }else if (!courseGroup.matches(regex) || courseGroup == ""){
+                }else if (!courseGroup.trim().matches(regex) || courseGroup.trim() == ""){
                     error = "Debe ingresar un grupo valido"
                 }else if (course != null && courseState == ""){
                     error = "Debe seleccionar un estado valido"
-                }else if (!courseMaximumEnrollment.matches(regexNums) || courseMaximumEnrollment == ""){
+                }else if (!courseMaximumEnrollment.trim().matches(regexNums) || courseMaximumEnrollment.trim() == ""){
                     error = "Debe ingresar un numero de cupos valido"
                 }else if (coursePicture == ""){
                     error = "Debe ingresar una URL de imagen"
